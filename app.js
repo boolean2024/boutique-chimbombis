@@ -5,11 +5,11 @@
 // Configuración de Supabase
 const SUPABASE_URL = import.meta?.env?.VITE_SUPABASE_URL || 
                      (typeof window !== 'undefined' && window.SUPABASE_URL) ||
-                     'https://tu-proyecto.supabase.co';
+                     'https://stsiaokrumpicjhfnjwn.supabase.co';
 
 const SUPABASE_KEY = import.meta?.env?.VITE_SUPABASE_KEY ||
                      (typeof window !== 'undefined' && window.SUPABASE_KEY) ||
-                     'tu_anon_key';
+                     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
 
 // Inicializar cliente de Supabase
 let supabase = null;
