@@ -3,11 +3,11 @@
    CRUD con Supabase + localStorage fallback
    ============================================ */
 
-// ⚙️ CONFIGURACIÓN
+// CONFIGURACION
 const SUPABASE_URL = 'https://stsiaokrumpicjhfnjwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
 
-// 🌍 GLOBAL STATE
+// GLOBAL STATE
 let supabase = null;
 let isConnected = false;
 let productos = [];
@@ -17,7 +17,7 @@ let useLocalStorageMode = false;
 const STORAGE_KEY = 'boutique_chimbombis_productos';
 
 // ============================================
-// 🚀 INICIALIZACIÓN SUPABASE
+// INICIALIZACION SUPABASE
 // ============================================
 
 async function initSupabase() {
@@ -25,39 +25,39 @@ async function initSupabase() {
         // Esperar a que Supabase esté disponible
         let intentos = 0;
         while (!window.supabase && intentos < 20) {
-            console.log('⏳ Esperando librería Supabase...');
+            console.log('Esperando libreria Supabase...');
             await new Promise(r => setTimeout(r, 500));
             intentos++;
         }
 
         if (!window.supabase) {
-            throw new Error('Librería Supabase no cargó');
+            throw new Error('Libreria Supabase no cargo');
         }
 
-        console.log('✅ Librería Supabase disponible');
+        console.log('OK Libreria Supabase disponible');
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Prueba de conexión
-        console.log('🔗 Probando conexión a Supabase...');
+        // Prueba de conexion
+        console.log('Probando conexion a Supabase...');
         const { data, error } = await supabase.from('productos').select('count()', { count: 'exact' }).limit(0);
 
         if (error) throw error;
 
         isConnected = true;
-        console.log('✅ Conectado a Supabase');
+        console.log('OK Conectado a Supabase');
         updateStatus('Supabase', true);
         await loadProductos();
 
     } catch (error) {
-        console.error('❌ Error Supabase:', error?.message || error);
-        console.log('⚠️ Activando modo localStorage');
+        console.error('ERROR Supabase:', error?.message || error);
+        console.log('Activando modo localStorage');
         useLocalStorage();
         updateStatus('localStorage', false);
     }
 }
 
 // ============================================
-// 💾 MODO ALMACENAMIENTO LOCAL
+// MODO ALMACENAMIENTO LOCAL
 // ============================================
 
 function useLocalStorage() {
@@ -83,15 +83,15 @@ function getProductosDefecto() {
     return [
         { id: 1, nombre: 'Perfume Elegancia', descripcion: 'Aroma sofisticado', precio: 120, categoria: 'perfume', imagen_url: 'https://via.placeholder.com/300?text=Perfume', stock: 15 },
         { id: 2, nombre: 'Perfume Fresco', descripcion: 'Fragancia ligera', precio: 85, categoria: 'perfume', imagen_url: 'https://via.placeholder.com/300?text=Perfume', stock: 20 },
-        { id: 3, nombre: 'Blusa Casual', descripcion: 'Cómoda para el día', precio: 35, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Blusa', stock: 25 },
-        { id: 4, nombre: 'Pantalón Casual', descripcion: 'Versátil y moderno', precio: 55, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Pantalon', stock: 18 },
-        { id: 5, nombre: 'Zapatillas Running', descripcion: 'Con amortiguación', precio: 159.99, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatillas', stock: 12 },
-        { id: 6, nombre: 'Zapatos Formales', descripcion: 'Elegantes y cómodos', precio: 120, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatos', stock: 8 }
+        { id: 3, nombre: 'Blusa Casual', descripcion: 'Comoda para el dia', precio: 35, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Blusa', stock: 25 },
+        { id: 4, nombre: 'Pantalon Casual', descripcion: 'Versatil y moderno', precio: 55, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Pantalon', stock: 18 },
+        { id: 5, nombre: 'Zapatillas Running', descripcion: 'Con amortiguacion', precio: 159.99, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatillas', stock: 12 },
+        { id: 6, nombre: 'Zapatos Formales', descripcion: 'Elegantes y comodos', precio: 120, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatos', stock: 8 }
     ];
 }
 
 // ============================================
-// 📊 CRUD OPERACIONES
+// CRUD OPERACIONES
 // ============================================
 
 async function loadProductos() {
@@ -101,13 +101,13 @@ async function loadProductos() {
             return;
         }
 
-        console.log('📥 Cargando productos desde Supabase...');
+        console.log('Cargando productos desde Supabase...');
         const { data, error } = await supabase.from('productos').select('*');
 
         if (error) throw error;
 
         productos = data || getProductosDefecto();
-        console.log(`✅ ${productos.length} productos cargados`);
+        console.log('OK ' + productos.length + ' productos cargados');
         renderizarProductos();
 
     } catch (error) {
@@ -137,13 +137,13 @@ async function agregarProducto(formData) {
             productos.push(data[0]);
         }
 
-        mostrarNotificacion('✅ Producto agregado', 'success');
+        mostrarNotificacion('OK Producto agregado', 'success');
         cerrarModal();
         renderizarProductos();
 
     } catch (error) {
         console.error('Error:', error);
-        mostrarNotificacion('❌ Error al agregar', 'error');
+        mostrarNotificacion('ERROR al agregar', 'error');
     }
 }
 
@@ -169,18 +169,18 @@ async function editarProducto(id, formData) {
             if (idx >= 0) productos[idx] = { ...productos[idx], ...producto };
         }
 
-        mostrarNotificacion('✅ Producto actualizado', 'success');
+        mostrarNotificacion('OK Producto actualizado', 'success');
         cerrarModal();
         renderizarProductos();
 
     } catch (error) {
         console.error('Error:', error);
-        mostrarNotificacion('❌ Error al editar', 'error');
+        mostrarNotificacion('ERROR al editar', 'error');
     }
 }
 
 async function eliminarProducto(id) {
-    if (!confirm('¿Eliminar este producto?')) return;
+    if (!confirm('Eliminar este producto?')) return;
 
     try {
         if (useLocalStorageMode) {
@@ -192,17 +192,17 @@ async function eliminarProducto(id) {
             productos = productos.filter(p => p.id !== id);
         }
 
-        mostrarNotificacion('✅ Producto eliminado', 'success');
+        mostrarNotificacion('OK Producto eliminado', 'success');
         renderizarProductos();
 
     } catch (error) {
         console.error('Error:', error);
-        mostrarNotificacion('❌ Error al eliminar', 'error');
+        mostrarNotificacion('ERROR al eliminar', 'error');
     }
 }
 
 // ============================================
-// 🎨 RENDERIZADO UI
+// RENDERIZADO UI
 // ============================================
 
 function renderizarProductos() {
@@ -239,7 +239,7 @@ function renderizarProductos() {
                 </div>
             </div>
         </div>
-    `).join('') : '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">No hay productos en esta categoría</div>';
+    `).join('') : '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">No hay productos en esta categoria</div>';
 
     actualizarEstadisticas();
 }
@@ -256,19 +256,19 @@ function updateStatus(mode, connected) {
     const badge = document.getElementById('statusBadge');
     if (!badge) return;
 
-    badge.textContent = (connected ? '🟢 ' : '🟡 ') + mode;
+    badge.textContent = (connected ? 'OK ' : 'WARN ') + mode;
     badge.className = connected ? 'badge connected' : 'badge';
 }
 
 // ============================================
-// 🪟 MODAL MANAGEMENT
+// MODAL MANAGEMENT
 // ============================================
 
 function abrirAgregarModal() {
     productoEditando = null;
     document.getElementById('form').reset();
     document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('modalTitle').textContent = '➕ Agregar Producto';
+    document.getElementById('modalTitle').textContent = '+ Agregar Producto';
     document.getElementById('modal').classList.add('active');
 }
 
@@ -285,7 +285,7 @@ function abrirEditarModal(id) {
     document.getElementById('inputImagen').value = producto.imagen_url;
 
     mostrarPreview(producto.imagen_url);
-    document.getElementById('modalTitle').textContent = '✏️ Editar Producto';
+    document.getElementById('modalTitle').textContent = 'Editar Producto';
     document.getElementById('modal').classList.add('active');
 }
 
@@ -307,7 +307,7 @@ function mostrarPreview(url) {
 }
 
 // ============================================
-// 🛠️ UTILIDADES
+// UTILIDADES
 // ============================================
 
 function escaparHtml(text) {
@@ -321,7 +321,7 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
     if (!toast) return;
 
     toast.textContent = mensaje;
-    toast.className = `toast show ${tipo}`;
+    toast.className = 'toast show ' + tipo;
 
     setTimeout(() => {
         toast.classList.remove('show');
@@ -329,7 +329,7 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 // ============================================
-// 📱 EVENT LISTENERS
+// EVENT LISTENERS
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (!formData.nombre || !formData.precio) {
-                mostrarNotificacion('❌ Completa nombre y precio', 'error');
+                mostrarNotificacion('ERROR Completa nombre y precio', 'error');
                 return;
             }
 
@@ -398,6 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Inicializar app
-    console.log('🚀 Inicializando Boutique Chimbombis...');
+    console.log('Inicializando Boutique Chimbombis...');
     initSupabase();
 });
