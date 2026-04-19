@@ -2,14 +2,9 @@
    APP JAVASCRIPT - BOUTIQUE CHIMBOMBIS
    ============================================ */
 
-// Configuración de Supabase
-const SUPABASE_URL = import.meta?.env?.VITE_SUPABASE_URL || 
-                     (typeof window !== 'undefined' && window.SUPABASE_URL) ||
-                     'https://stsiaokrumpicjhfnjwn.supabase.co';
-
-const SUPABASE_KEY = import.meta?.env?.VITE_SUPABASE_KEY ||
-                     (typeof window !== 'undefined' && window.SUPABASE_KEY) ||
-                     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
+// Configuración de Supabase - Credenciales hardcodeadas para app estática
+const SUPABASE_URL = 'https://stsiaokrumpicjhfnjwn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
 
 // Inicializar cliente de Supabase
 let supabase = null;
@@ -18,27 +13,32 @@ let isConnected = false;
 // Intentar conectar a Supabase
 async function initSupabase() {
     try {
-        if (SUPABASE_URL.includes('tu-proyecto') || SUPABASE_KEY === 'tu_anon_key') {
-            console.log('⚠️ Usando modo localStorage (sin Supabase)');
-            useLocalStorage();
-            updateStatus('localStorage', false);
+        // Esperar a que la librería de Supabase esté disponible
+        if (!window.supabase) {
+            console.log('⚠️ Librería Supabase aún no cargada, reintentando en 1s...');
+            setTimeout(initSupabase, 1000);
             return;
         }
 
+        console.log('Inicializando conexión a Supabase...');
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // Prueba conexión
+        // Prueba conexión realizando una consulta simple
+        console.log('Probando conexión...');
         const { data, error } = await supabase.from('productos').select('count()', { count: 'exact' }).limit(0);
         
-        if (error) throw error;
+        if (error) {
+            console.error('Error en consulta de prueba:', error);
+            throw error;
+        }
         
         isConnected = true;
-        console.log('✅ Conectado a Supabase');
+        console.log('✅ Conectado a Supabase exitosamente');
         updateStatus('Supabase', true);
         loadProductos();
     } catch (error) {
-        console.error('Supabase connection error:', error);
-        console.log('⚠️ Usando modo localStorage');
+        console.error('❌ Error de conexión Supabase:', error.message || error);
+        console.log('⚠️ Usando modo localStorage como fallback');
         useLocalStorage();
         updateStatus('localStorage', false);
     }
