@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Chimbombis - CRUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h1>Boutique Chimbombis</h1>
+                    <span class="badge" id="statusBadge">Conectando...</span>
+                </div>
+                <div class="header-stats">
+                    <span class="stat-item">
+                        <i class="fas fa-box"></i>
+                        Productos: <strong id="totalProducts">0</strong>
+                    </span>
+                    <span class="stat-item">
+                        <i class="fas fa-tags"></i>
+                        Valor: <strong>$<span id="totalValue">0.00</span></strong>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="btnAgregar">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </button>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-list"></i> Todos
+                    </button>
+                    <button class="filter-btn" data-filter="perfume">
+                        <i class="fas fa-spray-can"></i> Perfumes
+                    </button>
+                    <button class="filter-btn" data-filter="ropa">
+                        <i class="fas fa-shirt"></i> Ropa
+                    </button>
+                    <button class="filter-btn" data-filter="calzado">
+                        <i class="fas fa-shoe-prints"></i> Calzado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h2>No hay productos</h2>
+                <p>Comienza agregando tu primer producto</p>
+            </div>
+            <div id="productsGrid" class="products-grid"></div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Agregar Producto</h2>
+                <button class="btn-close" id="btnCloseModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="form" class="form">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" id="inputNombre" placeholder="Ej: Perfume Elegancia" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="inputDescripcion" placeholder="Breve descripción" rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Categoría</label>
+                        <select id="inputCategoria" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="perfume">Perfume</option>
+                            <option value="ropa">Ropa</option>
+                            <option value="calzado">Calzado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Precio ($)</label>
+                        <input type="number" id="inputPrecio" placeholder="0.00" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Stock</label>
+                        <input type="number" id="inputStock" placeholder="0" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URL de Imagen</label>
+                        <input type="url" id="inputImagen" placeholder="https://..." required>
+                    </div>
+                </div>
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <img id="imgPreview" alt="preview">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btnSubmit">Guardar</button>
+                    <button type="button" class="btn btn-secondary" id="btnCancel">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
