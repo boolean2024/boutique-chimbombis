@@ -1,59 +1,63 @@
 /* ============================================
    APP JAVASCRIPT - BOUTIQUE CHIMBOMBIS
+   CRUD con Supabase + localStorage fallback
    ============================================ */
 
-// Configuración de Supabase - Credenciales hardcodeadas para app estática
+// ⚙️ CONFIGURACIÓN
 const SUPABASE_URL = 'https://stsiaokrumpicjhfnjwn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
 
-// Inicializar cliente de Supabase
+// 🌍 GLOBAL STATE
 let supabase = null;
 let isConnected = false;
+let productos = [];
+let filtroActual = 'all';
+let productoEditando = null;
+let useLocalStorageMode = false;
+const STORAGE_KEY = 'boutique_chimbombis_productos';
 
-// Intentar conectar a Supabase
+// ============================================
+// 🚀 INICIALIZACIÓN SUPABASE
+// ============================================
+
 async function initSupabase() {
     try {
-        // Esperar a que la librería de Supabase esté disponible
-        if (!window.supabase) {
-            console.log('⚠️ Librería Supabase aún no cargada, reintentando en 1s...');
-            setTimeout(initSupabase, 1000);
-            return;
+        // Esperar a que Supabase esté disponible
+        let intentos = 0;
+        while (!window.supabase && intentos < 20) {
+            console.log('⏳ Esperando librería Supabase...');
+            await new Promise(r => setTimeout(r, 500));
+            intentos++;
         }
 
-        console.log('Inicializando conexión a Supabase...');
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // Prueba conexión realizando una consulta simple
-        console.log('Probando conexión...');
-        const { data, error } = await supabase.from('productos').select('count()', { count: 'exact' }).limit(0);
-        
-        if (error) {
-            console.error('Error en consulta de prueba:', error);
-            throw error;
+        if (!window.supabase) {
+            throw new Error('Librería Supabase no cargó');
         }
-        
+
+        console.log('✅ Librería Supabase disponible');
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Prueba de conexión
+        console.log('🔗 Probando conexión a Supabase...');
+        const { data, error } = await supabase.from('productos').select('count()', { count: 'exact' }).limit(0);
+
+        if (error) throw error;
+
         isConnected = true;
-        console.log('✅ Conectado a Supabase exitosamente');
+        console.log('✅ Conectado a Supabase');
         updateStatus('Supabase', true);
-        loadProductos();
+        await loadProductos();
+
     } catch (error) {
-        console.error('❌ Error de conexión Supabase:', error.message || error);
-        console.log('⚠️ Usando modo localStorage como fallback');
+        console.error('❌ Error Supabase:', error?.message || error);
+        console.log('⚠️ Activando modo localStorage');
         useLocalStorage();
         updateStatus('localStorage', false);
     }
 }
 
-// Estado global
-let productos = [];
-let filtroActual = 'all';
-let productoEditando = null;
-let useLocalStorageMode = false;
-
-const STORAGE_KEY = 'boutique_chimbombis_productos';
-
 // ============================================
-// MODO ALMACENAMIENTO
+// 💾 MODO ALMACENAMIENTO LOCAL
 // ============================================
 
 function useLocalStorage() {
@@ -77,134 +81,37 @@ function guardarProductos() {
 
 function getProductosDefecto() {
     return [
-        {
-            id: 1,
-            nombre: 'Perfume Elegancia',
-            descripcion: 'Aroma sofisticado para ocasiones especiales',
-            precio: 120.00,
-            categoria: 'perfume',
-            imagen_url: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400&h=400&fit=crop',
-            stock: 15
-        },
-        {
-            id: 2,
-            nombre: 'Perfume Fresco',
-            descripcion: 'Fragancia ligera y refrescante',
-            precio: 85.00,
-            categoria: 'perfume',
-            imagen_url: 'https://images.unsplash.com/photo-1508737763115-b8f8f5a83001?w=400&h=400&fit=crop',
-            stock: 20
-        },
-        {
-            id: 3,
-            nombre: 'Perfume Oriental',
-            descripcion: 'Esencias orientales cálida y misteriosa',
-            precio: 110.00,
-            categoria: 'perfume',
-            imagen_url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=400&fit=crop',
-            stock: 10
-        },
-        {
-            id: 4,
-            nombre: 'Perfume Floral',
-            descripcion: 'Notas florales delicadas y femeninas',
-            precio: 95.00,
-            categoria: 'perfume',
-            imagen_url: 'https://images.unsplash.com/photo-1518005067752-dae8d6ef7f0e?w=400&h=400&fit=crop',
-            stock: 18
-        },
-        {
-            id: 5,
-            nombre: 'Blusa Casual',
-            descripcion: 'Blusa cómoda para el día a día',
-            precio: 35.00,
-            categoria: 'ropa',
-            imagen_url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop',
-            stock: 25
-        },
-        {
-            id: 6,
-            nombre: 'Vestido Formal',
-            descripcion: 'Vestido elegante para eventos',
-            precio: 95.00,
-            categoria: 'ropa',
-            imagen_url: 'https://images.unsplash.com/photo-1595777707802-51ca6f37b237?w=400&h=400&fit=crop',
-            stock: 12
-        },
-        {
-            id: 7,
-            nombre: 'Jeans Premium',
-            descripcion: 'Pantalones vaqueros de alta calidad',
-            precio: 65.00,
-            categoria: 'ropa',
-            imagen_url: 'https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop',
-            stock: 30
-        },
-        {
-            id: 8,
-            nombre: 'Jacket Cuero',
-            descripcion: 'Chaqueta de cuero genuino',
-            precio: 180.00,
-            categoria: 'ropa',
-            imagen_url: 'https://images.unsplash.com/photo-1551028719-00167b16ebc5?w=400&h=400&fit=crop',
-            stock: 8
-        },
-        {
-            id: 9,
-            nombre: 'Zapatos Deportivos',
-            descripcion: 'Tenis cómodos para correr',
-            precio: 85.00,
-            categoria: 'calzado',
-            imagen_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
-            stock: 12
-        },
-        {
-            id: 10,
-            nombre: 'Zapatos Formales',
-            descripcion: 'Zapatos elegantes para oficina',
-            precio: 120.00,
-            categoria: 'calzado',
-            imagen_url: 'https://images.unsplash.com/photo-1549446881-cb1aea458c5e?w=400&h=400&fit=crop',
-            stock: 8
-        },
-        {
-            id: 11,
-            nombre: 'Botas Negras',
-            descripcion: 'Botas de cuero para invierno',
-            precio: 140.00,
-            categoria: 'calzado',
-            imagen_url: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=400&fit=crop',
-            stock: 10
-        },
-        {
-            id: 12,
-            nombre: 'Sandalias Playa',
-            descripcion: 'Cómodas sandalias para playa',
-            precio: 35.00,
-            categoria: 'calzado',
-            imagen_url: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop',
-            stock: 25
-        }
+        { id: 1, nombre: 'Perfume Elegancia', descripcion: 'Aroma sofisticado', precio: 120, categoria: 'perfume', imagen_url: 'https://via.placeholder.com/300?text=Perfume', stock: 15 },
+        { id: 2, nombre: 'Perfume Fresco', descripcion: 'Fragancia ligera', precio: 85, categoria: 'perfume', imagen_url: 'https://via.placeholder.com/300?text=Perfume', stock: 20 },
+        { id: 3, nombre: 'Blusa Casual', descripcion: 'Cómoda para el día', precio: 35, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Blusa', stock: 25 },
+        { id: 4, nombre: 'Pantalón Casual', descripcion: 'Versátil y moderno', precio: 55, categoria: 'ropa', imagen_url: 'https://via.placeholder.com/300?text=Pantalon', stock: 18 },
+        { id: 5, nombre: 'Zapatillas Running', descripcion: 'Con amortiguación', precio: 159.99, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatillas', stock: 12 },
+        { id: 6, nombre: 'Zapatos Formales', descripcion: 'Elegantes y cómodos', precio: 120, categoria: 'calzado', imagen_url: 'https://via.placeholder.com/300?text=Zapatos', stock: 8 }
     ];
 }
 
 // ============================================
-// CRUD OPERACIONES
+// 📊 CRUD OPERACIONES
 // ============================================
 
 async function loadProductos() {
-    if (useLocalStorageMode) {
-        renderizarProductos();
-        return;
-    }
-
     try {
+        if (useLocalStorageMode) {
+            renderizarProductos();
+            return;
+        }
+
+        console.log('📥 Cargando productos desde Supabase...');
         const { data, error } = await supabase.from('productos').select('*');
+
         if (error) throw error;
+
         productos = data || getProductosDefecto();
+        console.log(`✅ ${productos.length} productos cargados`);
         renderizarProductos();
+
     } catch (error) {
-        console.error('Error cargando productos:', error);
+        console.error('Error cargando:', error?.message);
         useLocalStorage();
     }
 }
@@ -221,26 +128,22 @@ async function agregarProducto(formData) {
 
     try {
         if (useLocalStorageMode) {
-            producto.id = Math.max(...productos.map(p => p.id || 0)) + 1;
+            producto.id = Math.max(...productos.map(p => p.id || 0), 0) + 1;
             productos.push(producto);
             guardarProductos();
-            mostrarNotificacion('Producto agregado correctamente', 'success');
         } else {
-            const { data, error } = await supabase
-                .from('productos')
-                .insert([producto])
-                .select();
-            
+            const { data, error } = await supabase.from('productos').insert([producto]).select();
             if (error) throw error;
             productos.push(data[0]);
-            mostrarNotificacion('Producto agregado correctamente', 'success');
         }
 
+        mostrarNotificacion('✅ Producto agregado', 'success');
         cerrarModal();
         renderizarProductos();
+
     } catch (error) {
-        console.error('Error agregando producto:', error);
-        mostrarNotificacion('Error al agregar producto', 'error');
+        console.error('Error:', error);
+        mostrarNotificacion('❌ Error al agregar', 'error');
     }
 }
 
@@ -256,138 +159,117 @@ async function editarProducto(id, formData) {
 
     try {
         if (useLocalStorageMode) {
-            const index = productos.findIndex(p => p.id === id);
-            if (index !== -1) {
-                productos[index] = { ...productos[index], ...producto };
-                guardarProductos();
-            }
-            mostrarNotificacion('Producto actualizado correctamente', 'success');
+            const idx = productos.findIndex(p => p.id === id);
+            if (idx >= 0) productos[idx] = { ...productos[idx], ...producto };
+            guardarProductos();
         } else {
-            const { error } = await supabase
-                .from('productos')
-                .update(producto)
-                .eq('id', id);
-            
+            const { error } = await supabase.from('productos').update(producto).eq('id', id);
             if (error) throw error;
-            
-            const index = productos.findIndex(p => p.id === id);
-            if (index !== -1) {
-                productos[index] = { ...productos[index], ...producto };
-            }
-            mostrarNotificacion('Producto actualizado correctamente', 'success');
+            const idx = productos.findIndex(p => p.id === id);
+            if (idx >= 0) productos[idx] = { ...productos[idx], ...producto };
         }
 
+        mostrarNotificacion('✅ Producto actualizado', 'success');
         cerrarModal();
         renderizarProductos();
+
     } catch (error) {
-        console.error('Error editando producto:', error);
-        mostrarNotificacion('Error al actualizar producto', 'error');
+        console.error('Error:', error);
+        mostrarNotificacion('❌ Error al editar', 'error');
     }
 }
 
 async function eliminarProducto(id) {
+    if (!confirm('¿Eliminar este producto?')) return;
+
     try {
         if (useLocalStorageMode) {
             productos = productos.filter(p => p.id !== id);
             guardarProductos();
-            mostrarNotificacion('Producto eliminado correctamente', 'success');
         } else {
-            const { error } = await supabase
-                .from('productos')
-                .delete()
-                .eq('id', id);
-            
+            const { error } = await supabase.from('productos').delete().eq('id', id);
             if (error) throw error;
             productos = productos.filter(p => p.id !== id);
-            mostrarNotificacion('Producto eliminado correctamente', 'success');
         }
 
+        mostrarNotificacion('✅ Producto eliminado', 'success');
         renderizarProductos();
+
     } catch (error) {
-        console.error('Error eliminando producto:', error);
-        mostrarNotificacion('Error al eliminar producto', 'error');
+        console.error('Error:', error);
+        mostrarNotificacion('❌ Error al eliminar', 'error');
     }
 }
 
 // ============================================
-// UI RENDERING
+// 🎨 RENDERIZADO UI
 // ============================================
 
 function renderizarProductos() {
     const grid = document.getElementById('productsGrid');
-    const empty = document.getElementById('emptyState');
-    
-    let productosFiltrados = productos;
+    if (!grid) return;
+
+    let filtrados = productos;
     if (filtroActual !== 'all') {
-        productosFiltrados = productos.filter(p => p.categoria === filtroActual);
+        filtrados = productos.filter(p => p.categoria === filtroActual);
     }
 
-    if (productosFiltrados.length === 0) {
-        empty.style.display = 'block';
-        grid.innerHTML = '';
-        return;
-    }
-
-    empty.style.display = 'none';
-    grid.innerHTML = productosFiltrados.map(p => `
-        <div class="product-card">
-            <div style="position: relative;">
-                <img src="${escaparHtml(p.imagen_url)}" alt="${escaparHtml(p.nombre)}" class="product-image" onerror="this.src='https://via.placeholder.com/400x400?text=Sin+Imagen'">
-                <span class="product-category">${escaparHtml(p.categoria)}</span>
+    grid.innerHTML = filtrados.length ? filtrados.map(producto => `
+        <div class="product-card" data-id="${producto.id}">
+            <div class="product-image">
+                <img src="${escaparHtml(producto.imagen_url)}" alt="${escaparHtml(producto.nombre)}" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
             </div>
             <div class="product-info">
-                <h3 class="product-name">${escaparHtml(p.nombre)}</h3>
-                <p class="product-description">${escaparHtml(p.descripcion)}</p>
+                <h3>${escaparHtml(producto.nombre)}</h3>
+                <p class="description">${escaparHtml(producto.descripcion)}</p>
                 <div class="product-details">
-                    <span class="product-price">$${p.precio.toFixed(2)}</span>
-                    <span class="product-stock ${p.stock === 0 ? 'out' : p.stock < 5 ? 'low' : ''}">
-                        Stock: ${p.stock}
-                    </span>
+                    <span class="category">${escaparHtml(producto.categoria)}</span>
+                    <span class="stock">Stock: ${producto.stock}</span>
                 </div>
-                <div class="product-actions">
-                    <button class="btn btn-primary" onclick="abrirEditarModal(${p.id})" style="flex: 1;">
-                        <i class="fas fa-edit"></i> Editar
-                    </button>
-                    <button class="btn btn-danger" onclick="confirmarEliminar(${p.id})" style="flex: 1;">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
+                <div class="product-footer">
+                    <span class="price">$${parseFloat(producto.precio).toFixed(2)}</span>
+                    <div class="product-actions">
+                        <button class="btn-icon" onclick="abrirEditarModal(${producto.id})" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon danger" onclick="eliminarProducto(${producto.id})" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    `).join('');
+    `).join('') : '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">No hay productos en esta categoría</div>';
 
     actualizarEstadisticas();
 }
 
 function actualizarEstadisticas() {
-    const total = productos.length;
-    const valor = productos.reduce((sum, p) => sum + (p.precio * p.stock), 0);
-    
-    document.getElementById('totalProducts').textContent = total;
-    document.getElementById('totalValue').textContent = valor.toFixed(2);
+    const totalProducts = document.getElementById('totalProducts');
+    const totalValue = document.getElementById('totalValue');
+
+    if (totalProducts) totalProducts.textContent = productos.length;
+    if (totalValue) totalValue.textContent = productos.reduce((sum, p) => sum + (p.precio * p.stock), 0).toFixed(2);
 }
 
 function updateStatus(mode, connected) {
     const badge = document.getElementById('statusBadge');
-    if (connected) {
-        badge.textContent = '🟢 ' + mode;
-        badge.classList.add('connected');
-    } else {
-        badge.textContent = '🟡 ' + mode;
-        badge.classList.remove('connected');
-    }
+    if (!badge) return;
+
+    badge.textContent = (connected ? '🟢 ' : '🟡 ') + mode;
+    badge.className = connected ? 'badge connected' : 'badge';
 }
 
 // ============================================
-// MODAL MANAGEMENT
+// 🪟 MODAL MANAGEMENT
 // ============================================
 
 function abrirAgregarModal() {
     productoEditando = null;
-    document.getElementById('modalTitle').textContent = 'Agregar Producto';
     document.getElementById('form').reset();
     document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modalTitle').textContent = '➕ Agregar Producto';
+    document.getElementById('modal').classList.add('active');
 }
 
 function abrirEditarModal(id) {
@@ -395,43 +277,37 @@ function abrirEditarModal(id) {
     if (!producto) return;
 
     productoEditando = id;
-    document.getElementById('modalTitle').textContent = 'Editar Producto';
-    
     document.getElementById('inputNombre').value = producto.nombre;
     document.getElementById('inputDescripcion').value = producto.descripcion;
     document.getElementById('inputCategoria').value = producto.categoria;
     document.getElementById('inputPrecio').value = producto.precio;
     document.getElementById('inputStock').value = producto.stock;
     document.getElementById('inputImagen').value = producto.imagen_url;
-    
+
     mostrarPreview(producto.imagen_url);
-    
-    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modalTitle').textContent = '✏️ Editar Producto';
+    document.getElementById('modal').classList.add('active');
 }
 
 function cerrarModal() {
-    document.getElementById('modal').style.display = 'none';
+    document.getElementById('modal').classList.remove('active');
     document.getElementById('form').reset();
-    document.getElementById('imagePreview').style.display = 'none';
     productoEditando = null;
 }
 
 function mostrarPreview(url) {
-    if (!url) return;
     const preview = document.getElementById('imagePreview');
     const img = document.getElementById('imgPreview');
-    img.src = url;
-    preview.style.display = 'block';
-}
-
-function confirmarEliminar(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-        eliminarProducto(id);
+    if (url && url.trim()) {
+        img.src = url;
+        preview.style.display = 'block';
+    } else {
+        preview.style.display = 'none';
     }
 }
 
 // ============================================
-// UTILIDADES
+// 🛠️ UTILIDADES
 // ============================================
 
 function escaparHtml(text) {
@@ -442,50 +318,66 @@ function escaparHtml(text) {
 
 function mostrarNotificacion(mensaje, tipo = 'success') {
     const toast = document.getElementById('toast');
+    if (!toast) return;
+
     toast.textContent = mensaje;
     toast.className = `toast show ${tipo}`;
-    
+
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
 }
 
 // ============================================
-// EVENT LISTENERS
+// 📱 EVENT LISTENERS
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Botones
-    document.getElementById('btnAgregar').addEventListener('click', abrirAgregarModal);
-    document.getElementById('btnCloseModal').addEventListener('click', cerrarModal);
-    document.getElementById('btnCancel').addEventListener('click', cerrarModal);
+    // Botones principales
+    const btnAgregar = document.getElementById('btnAgregar');
+    if (btnAgregar) btnAgregar.addEventListener('click', abrirAgregarModal);
+
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    if (btnCloseModal) btnCloseModal.addEventListener('click', cerrarModal);
+
+    const btnCancel = document.getElementById('btnCancel');
+    if (btnCancel) btnCancel.addEventListener('click', cerrarModal);
 
     // Formulario
-    document.getElementById('form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            nombre: document.getElementById('inputNombre').value,
-            descripcion: document.getElementById('inputDescripcion').value,
-            categoria: document.getElementById('inputCategoria').value,
-            precio: document.getElementById('inputPrecio').value,
-            stock: document.getElementById('inputStock').value,
-            imagen_url: document.getElementById('inputImagen').value
-        };
+    const form = document.getElementById('form');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        if (productoEditando) {
-            await editarProducto(productoEditando, formData);
-        } else {
-            await agregarProducto(formData);
-        }
-    });
+            const formData = {
+                nombre: document.getElementById('inputNombre').value,
+                descripcion: document.getElementById('inputDescripcion').value,
+                categoria: document.getElementById('inputCategoria').value,
+                precio: document.getElementById('inputPrecio').value,
+                stock: document.getElementById('inputStock').value,
+                imagen_url: document.getElementById('inputImagen').value
+            };
+
+            if (!formData.nombre || !formData.precio) {
+                mostrarNotificacion('❌ Completa nombre y precio', 'error');
+                return;
+            }
+
+            if (productoEditando) {
+                await editarProducto(productoEditando, formData);
+            } else {
+                await agregarProducto(formData);
+            }
+        });
+    }
 
     // Preview de imagen
-    document.getElementById('inputImagen').addEventListener('change', (e) => {
-        if (e.target.value) {
+    const inputImagen = document.getElementById('inputImagen');
+    if (inputImagen) {
+        inputImagen.addEventListener('change', (e) => {
             mostrarPreview(e.target.value);
-        }
-    });
+        });
+    }
 
     // Filtros
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -498,12 +390,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Cerrar modal al hacer click fuera
-    document.getElementById('modal').addEventListener('click', (e) => {
-        if (e.target.id === 'modal') {
-            cerrarModal();
-        }
-    });
+    const modal = document.getElementById('modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') cerrarModal();
+        });
+    }
 
-    // Inicializar
+    // Inicializar app
+    console.log('🚀 Inicializando Boutique Chimbombis...');
     initSupabase();
 });
