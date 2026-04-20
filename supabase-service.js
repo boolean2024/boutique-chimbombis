@@ -2,22 +2,31 @@
 // Reemplaza las llamadas locales con Supabase Cloud
 
 // ============================
-// VERIFICAR SUPABASE INICIALIZADO
+// HELPER - Esperar a que Supabase esté listo
 // ============================
 
-// Esperar a que Supabase esté listo (desde config.js)
-if (!window.supabase_instance) {
-    console.error('❌ window.supabase_instance no está disponible. Verifica que config.js se cargó antes.');
+async function waitForSupabase(maxRetries = 10) {
+    for (let i = 0; i < maxRetries; i++) {
+        if (window.supabase_instance) {
+            console.log('✅ Supabase listo');
+            return true;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    console.error('❌ Supabase no se pudo inicializar después de esperar');
+    return false;
 }
 
 // ============================
 // FUNCIONES SUPABASE
-// ============================
+// =============================
 
 // GET - Obtener todos los productos
 async function fetchAllProducts() {
     try {
-        if (!window.supabase_instance) {
+        // Esperar a que Supabase esté listo
+        const ready = await waitForSupabase();
+        if (!ready || !window.supabase_instance) {
             console.error('Supabase no configurado');
             return [];
         }
@@ -32,6 +41,7 @@ async function fetchAllProducts() {
             return [];
         }
 
+        console.log('✅ Productos obtenidos:', data?.length);
         return data || [];
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -42,7 +52,8 @@ async function fetchAllProducts() {
 // GET - Obtener un producto por ID
 async function fetchProductById(productId) {
     try {
-        if (!window.supabase_instance) {
+        const ready = await waitForSupabase();
+        if (!ready || !window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
@@ -68,7 +79,8 @@ async function fetchProductById(productId) {
 // POST - Crear nuevo producto
 async function createProduct(productData) {
     try {
-        if (!window.supabase_instance) {
+        const ready = await waitForSupabase();
+        if (!ready || !window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
@@ -94,7 +106,8 @@ async function createProduct(productData) {
 // PUT - Actualizar producto
 async function updateProduct(productId, productData) {
     try {
-        if (!window.supabase_instance) {
+        const ready = await waitForSupabase();
+        if (!ready || !window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
@@ -121,7 +134,8 @@ async function updateProduct(productId, productData) {
 // DELETE - Eliminar producto
 async function apiDeleteProduct(productId) {
     try {
-        if (!window.supabase_instance) {
+        const ready = await waitForSupabase();
+        if (!ready || !window.supabase_instance) {
             console.error('Supabase no configurado');
             return false;
         }
