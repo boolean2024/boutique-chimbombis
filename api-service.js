@@ -112,7 +112,7 @@ async function updateProduct(productId, productData) {
 }
 
 // DELETE - Eliminar producto
-async function deleteProduct(productId) {
+async function apiDeleteProduct(productId) {
     try {
         const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
             method: 'DELETE'

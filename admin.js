@@ -4,10 +4,15 @@ let products = [];
 let editingProductId = null;
 
 // Cargar productos al iniciar
-function initAdmin() {
-    products = loadProducts();
-    renderAdminTable();
-    updateAdminStats();
+async function initAdmin() {
+    try {
+        products = await loadProducts();
+        renderAdminTable();
+        updateAdminStats();
+    } catch (error) {
+        console.error('Error iniciando admin:', error);
+        showNotification('Error al cargar productos', 'error');
+    }
 }
 
 // Renderizar tabla de productos
@@ -110,7 +115,7 @@ function showImagePreview(imageData) {
 }
 
 // Guardar producto
-function handleProductSubmit(event) {
+async function handleProductSubmit(event) {
     event.preventDefault();
     
     const formData = {
@@ -122,36 +127,55 @@ function handleProductSubmit(event) {
         image: document.getElementById('previewImg').src
     };
     
-    if (editingProductId) {
-        // Editar
-        const index = products.findIndex(p => p.id === editingProductId);
-        if (index >= 0) {
-            products[index] = { ...products[index], ...formData };
-            showNotification('✅ Producto actualizado', 'success');
+    try {
+        if (editingProductId) {
+            // Actualizar en API
+            const updated = await updateProduct(editingProductId, formData);
+            if (updated) {
+                showNotification('✅ Producto actualizado exitosamente', 'success');
+                const index = products.findIndex(p => p.id === editingProductId);
+                if (index >= 0) {
+                    products[index] = updated;
+                }
+            } else {
+                showNotification('❌ Error al actualizar producto', 'error');
+            }
+        } else {
+            // Crear nuevo en API
+            const newProduct = await createProduct(formData);
+            if (newProduct) {
+                showNotification('✅ Producto agregado exitosamente', 'success');
+                products.push(newProduct);
+            } else {
+                showNotification('❌ Error al agregar producto', 'error');
+            }
         }
-    } else {
-        // Agregar
-        const newProduct = {
-            id: Math.max(...products.map(p => p.id), 0) + 1,
-            ...formData
-        };
-        products.push(newProduct);
-        showNotification('✅ Producto agregado', 'success');
+        
+        renderAdminTable();
+        updateAdminStats();
+        closeAddProductModal();
+    } catch (error) {
+        console.error('Error guardando producto:', error);
+        showNotification('Error al guardar producto', 'error');
     }
-    
-    saveProducts(products);
-    renderAdminTable();
-    updateAdminStats();
-    closeAddProductModal();
 }
 
 // Eliminar producto
-function deleteProduct(id) {
+async function deleteProduct(id) {
     if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-        products = products.filter(p => p.id !== id);
-        saveProducts(products);
-        renderAdminTable();
-        updateAdminStats();
-        showNotification('✅ Producto eliminado', 'success');
+        try {
+            const deleted = await apiDeleteProduct(id);
+            if (deleted) {
+                products = products.filter(p => p.id !== id);
+                renderAdminTable();
+                updateAdminStats();
+                showNotification('✅ Producto eliminado exitosamente', 'success');
+            } else {
+                showNotification('❌ Error al eliminar producto', 'error');
+            }
+        } catch (error) {
+            console.error('Error eliminando producto:', error);
+            showNotification('Error al eliminar producto', 'error');
+        }
     }
 }

@@ -1,0 +1,213 @@
+═══════════════════════════════════════════════════════════════
+   BOUTIQUE CHIMBOMBIS - INSTRUCCIONES PARA EJECUTAR
+═══════════════════════════════════════════════════════════════
+
+✅ SISTEMA CONECTADO:
+- ✨ Frontend (HTML/CSS/JS) conectado con Backend
+- 🔌 API REST operando en http://localhost:3000
+- 🗄️ Base de datos JSON (products.json)
+- 🚀 Listo para usar
+
+═══════════════════════════════════════════════════════════════
+
+📋 REQUISITOS:
+═════════════════════════════════════════════════════════════════
+
+1. Node.js 14+ instalado
+   Descarga: https://nodejs.org/ (versión LTS)
+   
+   Verifica instalación:
+   node --version
+   npm --version
+
+═════════════════════════════════════════════════════════════════
+
+🚀 PASOS PARA EJECUTAR:
+═════════════════════════════════════════════════════════════════
+
+PASO 1: Abrir Terminal en la carpeta del proyecto
+
+PASO 2: Navegar a la carpeta backend
+   cd backend
+
+PASO 3: Instalar dependencias (solo primera vez)
+   npm install
+
+PASO 4: Iniciar el servidor
+   npm start
+
+   Verás:
+   ╔════════════════════════════════════════╗
+   ║  BOUTIQUE CHIMBOMBIS - BACKEND API    ║
+   ╚════════════════════════════════════════╝
+
+   ✅ Servidor ejecutándose en: http://localhost:3000
+
+PASO 5: Abrir index.html en navegador
+
+   Opción A (Doble clic):
+   - En el explorador, navega a la carpeta principal
+   - Haz doble clic en index.html
+
+   Opción B (Con Live Server - Recomendado):
+   - Instala extensión Live Server en VS Code
+   - Click derecho en index.html → "Open with Live Server"
+
+✅ ¡Listo! Tu boutique está funcionando
+
+═════════════════════════════════════════════════════════════════
+
+🔌 VERIFICAR QUE TODO FUNCIONA:
+═════════════════════════════════════════════════════════════════
+
+Terminal:
+1. Abre http://localhost:3000/api/health
+2. Deberías ver un JSON con "success": true
+
+Frontend:
+1. Abre http://localhost:3000 (o abre index.html)
+2. Selecciona "Comprador" o "Administrador"
+3. Los productos deberían cargar desde la API
+
+═════════════════════════════════════════════════════════════════
+
+🧪 PROBAR FUNCIONALIDADES:
+═════════════════════════════════════════════════════════════════
+
+MODO COMPRADOR:
+✅ Ver productos (cargados desde API)
+✅ Buscar productos
+✅ Filtrar por categoría
+✅ Agregar al carrito
+✅ Editar cantidad del carrito
+✅ Eliminar del carrito
+
+MODO ADMINISTRADOR:
+✅ Ver todos los productos
+✅ Agregar nuevo producto (se guarda en API)
+✅ Editar producto (cambios en API)
+✅ Eliminar producto (borra de API)
+✅ Ver estadísticas actualizadas
+
+═════════════════════════════════════════════════════════════════
+
+📍 FLUJO DE DATOS:
+═════════════════════════════════════════════════════════════════
+
+FRONTEND (index.html)
+    ↓
+API Service (api-service.js)
+    ↓
+Backend Express (backend/server.js)
+    ↓
+Base de datos JSON (backend/products.json)
+
+Todos los cambios se guardan en products.json
+Los datos persisten incluso si cierras el servidor
+
+═════════════════════════════════════════════════════════════════
+
+❌ PROBLEMAS Y SOLUCIONES:
+═════════════════════════════════════════════════════════════════
+
+❌ "Port 3000 already in use"
+   → Solución 1: Cambia puerto en backend/.env a 5000
+   → Solución 2: Cierra la otra aplicación que usa 3000
+   → Solución 3: Ejecuta: lsof -i :3000 (Mac/Linux) para ver qué usa el puerto
+
+❌ "Cannot find module 'express'"
+   → Solución: Asegúrate de estar en carpeta "backend"
+   → Ejecuta: npm install
+
+❌ Los productos no cargan en el frontend
+   → Verifica: ¿El backend está corriendo? (npm start)
+   → Verifica: ¿La URL en api-service.js es correcta?
+   → Abre consola del navegador (F12) y busca errores
+
+❌ CORS error
+   → El backend debe estar corriendo en http://localhost:3000
+   → Verifica que cors esté habilitado en server.js
+
+❌ "Cannot GET /api/products"
+   → El backend no está corriendo
+   → Ve a carpeta backend y ejecuta: npm start
+
+═════════════════════════════════════════════════════════════════
+
+💾 BASE DE DATOS:
+═════════════════════════════════════════════════════════════════
+
+Ubicación: backend/products.json
+
+✅ Los datos se guardan automáticamente
+✅ Puedes editar el JSON directamente si necesitas
+✅ Cada producto tiene: id, name, price, stock, image, etc.
+
+Para hacer backup:
+1. Copia el archivo products.json
+2. Guárdalo en otro lugar
+
+═════════════════════════════════════════════════════════════════
+
+🔄 DESARROLLO:
+═════════════════════════════════════════════════════════════════
+
+Para hacer cambios al código:
+
+Frontend:
+- Edita index.html, style.css, o los archivos .js
+- El navegador recargará automáticamente (si usas Live Server)
+
+Backend:
+- Edita backend/server.js
+- Necesitas reiniciar el servidor: Ctrl+C y luego npm start
+
+═════════════════════════════════════════════════════════════════
+
+📚 ARCHIVOS IMPORTANTES:
+═════════════════════════════════════════════════════════════════
+
+FRONTEND:
+├── index.html           - Estructura HTML
+├── style.css            - Estilos y diseño
+├── api-service.js       - Funciones para consumir API
+├── data.js              - Manejo de datos (ahora usa API)
+├── admin.js             - Lógica del panel admin
+├── buyer.js             - Lógica del modo comprador
+└── main-init.js         - Inicialización y modos
+
+BACKEND:
+├── backend/
+│   ├── server.js        - Servidor Express con endpoints
+│   ├── products.json    - Base de datos
+│   ├── package.json     - Dependencias
+│   └── .env             - Configuración (puerto)
+
+═════════════════════════════════════════════════════════════════
+
+🚀 PRÓXIMOS PASOS:
+═════════════════════════════════════════════════════════════════
+
+Para producción:
+1. Cambiar base de datos JSON por PostgreSQL/MongoDB
+2. Implementar autenticación (usuarios/contraseñas)
+3. Desplegar en Heroku, Railway o AWS
+4. Usar dominio propio
+
+Para desarrollo:
+1. Agregar más validaciones
+2. Implementar carrito persistente en servidor
+3. Agregar búsqueda avanzada
+4. Integrar sistema de pagos
+
+═════════════════════════════════════════════════════════════════
+
+¿NECESITAS AYUDA?
+
+Abre la terminal y verifica:
+1. npm está instalado: npm --version
+2. Backend está corriendo: http://localhost:3000/api/health
+3. Frontend carga los productos desde API
+4. Ver mensajes de error en consola del navegador (F12)
+
+═════════════════════════════════════════════════════════════════

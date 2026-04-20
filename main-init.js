@@ -8,13 +8,13 @@ function selectMode(mode) {
     if (mode === 'buyer') {
         document.getElementById('buyerMode').style.display = 'block';
         document.getElementById('adminMode').style.display = 'none';
-        setTimeout(() => initBuyer(), 300);
+        setTimeout(async () => await initBuyer(), 300);
         loadCart();
         updateCartUI();
     } else if (mode === 'admin') {
         document.getElementById('buyerMode').style.display = 'none';
         document.getElementById('adminMode').style.display = 'block';
-        setTimeout(() => initAdmin(), 300);
+        setTimeout(async () => await initAdmin(), 300);
     }
 }
 

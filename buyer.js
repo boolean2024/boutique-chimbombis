@@ -5,14 +5,19 @@ let cart = [];
 let currentFilter = 'all';
 
 // Cargar al iniciar
-function initBuyer() {
-    buyerProducts = loadProducts();
-    loadCart();
-    renderBuyerProducts();
-    setupFilters();
-    setupSearch();
-    updateCartUI();
-    renderCart();
+async function initBuyer() {
+    try {
+        buyerProducts = await loadProducts();
+        loadCart();
+        renderBuyerProducts();
+        setupFilters();
+        setupSearch();
+        updateCartUI();
+        renderCart();
+    } catch (error) {
+        console.error('Error iniciando buyer:', error);
+        showNotification('Error al cargar productos', 'error');
+    }
 }
 
 // Renderizar productos para comprador

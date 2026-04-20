@@ -92,17 +92,29 @@ const INITIAL_PRODUCTS = [
     }
 ];
 
-// Función para guardar/cargar datos
+// Función para cargar datos desde API
+async function loadProducts() {
+    try {
+        const products = await fetchAllProducts();
+        if (products.length > 0) {
+            return products;
+        } else {
+            // Si la API no tiene datos, cargar datos iniciales
+            console.warn('API vacía, cargando datos iniciales...');
+            for (const product of INITIAL_PRODUCTS) {
+                await createProduct(product);
+            }
+            return INITIAL_PRODUCTS;
+        }
+    } catch (error) {
+        console.error('Error cargando productos:', error);
+        // Fallback a datos iniciales si hay error
+        return INITIAL_PRODUCTS;
+    }
+}
+
+// Función para guardar productos (ya no se usa, ahora todo va a la API)
 function saveProducts(products) {
-    localStorage.setItem('boutique_products', JSON.stringify(products));
-}
-
-function loadProducts() {
-    const saved = localStorage.getItem('boutique_products');
-    return saved ? JSON.parse(saved) : [...INITIAL_PRODUCTS];
-}
-
-// Inicializar si no existe
-if (!localStorage.getItem('boutique_products')) {
-    saveProducts(INITIAL_PRODUCTS);
+    // Deprecated - los datos se guardan en la API ahora
+    console.log('saveProducts deprecated - usa la API');
 }
