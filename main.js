@@ -3,18 +3,23 @@
    CRUD con Supabase + localStorage fallback
    ============================================ */
 
-// CONFIGURACION
-const SUPABASE_URL = 'https://stsiaokrumpicjhfnjwn.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
+// EVITAR DUPLICACIONES
+if (typeof SUPABASE_URL === 'undefined') {
+    // CONFIGURACION
+    var SUPABASE_URL = 'https://stsiaokrumpicjhfnjwn.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0c2lhb2tydW1waWNqaGZuanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzM2NjcsImV4cCI6MjA5MjIwOTY2N30.JPZGRuel_SZ9zCint7cP2LgfGCPQgWKBKPg6qcNRGQs';
+}
 
 // GLOBAL STATE
-let supabase = null;
-let isConnected = false;
-let productos = [];
-let filtroActual = 'all';
-let productoEditando = null;
-let useLocalStorageMode = false;
-const STORAGE_KEY = 'boutique_chimbombis_productos';
+if (typeof supabase === 'undefined') {
+    var supabase = null;
+    var isConnected = false;
+    var productos = [];
+    var filtroActual = 'all';
+    var productoEditando = null;
+    var useLocalStorageMode = false;
+    var STORAGE_KEY = 'boutique_chimbombis_productos';
+}
 
 // ============================================
 // INICIALIZACION SUPABASE
