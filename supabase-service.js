@@ -1,11 +1,14 @@
 // SUPABASE API SERVICE
 // Reemplaza las llamadas locales con Supabase Cloud
 
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY';
+// ============================
+// VERIFICAR SUPABASE INICIALIZADO
+// ============================
 
-// Cliente Supabase
-const supabase = supabase_instance ? supabase_instance : null;
+// Esperar a que Supabase esté listo (desde config.js)
+if (typeof supabase_instance === 'undefined') {
+    console.error('❌ supabase_instance no está disponible. Verifica que config.js se cargó antes.');
+}
 
 // ============================
 // FUNCIONES SUPABASE
@@ -14,12 +17,12 @@ const supabase = supabase_instance ? supabase_instance : null;
 // GET - Obtener todos los productos
 async function fetchAllProducts() {
     try {
-        if (!supabase) {
+        if (!supabase_instance) {
             console.error('Supabase no configurado');
             return [];
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabase_instance
             .from('products')
             .select('*')
             .order('id', { ascending: true });
@@ -39,12 +42,12 @@ async function fetchAllProducts() {
 // GET - Obtener un producto por ID
 async function fetchProductById(productId) {
     try {
-        if (!supabase) {
+        if (!supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabase_instance
             .from('products')
             .select('*')
             .eq('id', productId)
@@ -65,12 +68,12 @@ async function fetchProductById(productId) {
 // POST - Crear nuevo producto
 async function createProduct(productData) {
     try {
-        if (!supabase) {
+        if (!supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabase_instance
             .from('products')
             .insert([productData])
             .select()
@@ -91,12 +94,12 @@ async function createProduct(productData) {
 // PUT - Actualizar producto
 async function updateProduct(productId, productData) {
     try {
-        if (!supabase) {
+        if (!supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabase_instance
             .from('products')
             .update(productData)
             .eq('id', productId)
@@ -118,12 +121,12 @@ async function updateProduct(productId, productData) {
 // DELETE - Eliminar producto
 async function apiDeleteProduct(productId) {
     try {
-        if (!supabase) {
+        if (!supabase_instance) {
             console.error('Supabase no configurado');
             return false;
         }
 
-        const { error } = await supabase
+        const { error } = await supabase_instance
             .from('products')
             .delete()
             .eq('id', productId);
