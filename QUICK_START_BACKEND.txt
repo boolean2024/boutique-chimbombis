@@ -1,0 +1,119 @@
+═══════════════════════════════════════════════════════════════
+   BOUTIQUE CHIMBOMBIS - INSTRUCCIONES RÁPIDAS PARA BACKEND
+═══════════════════════════════════════════════════════════════
+
+🚀 INSTALACIÓN RÁPIDA (1 MINUTO)
+═════════════════════════════════════════════════════════════════
+
+1. Abre Terminal/PowerShell en la carpeta del proyecto
+
+2. Navega a la carpeta backend:
+   cd backend
+
+3. Instala dependencias:
+   npm install
+
+4. Inicia el servidor:
+   npm start
+
+✅ Listo. El backend estará corriendo en http://localhost:3000
+
+═════════════════════════════════════════════════════════════════
+
+📝 ESTRUCTURA DEL PROYECTO AHORA:
+═════════════════════════════════════════════════════════════════
+
+boutique-chimbombis/
+├── 📁 backend/              ← Servidor Node.js/Express
+│   ├── server.js            ← API REST con endpoints
+│   ├── products.json        ← Base de datos (JSON)
+│   ├── package.json         ← Dependencias
+│   └── .env                 ← Configuración
+│
+├── index.html               ← Frontend HTML
+├── api-service.js           ← Funciones para consumir API
+├── data.js                  ← Manejo de datos
+├── admin.js                 ← Lógica admin
+├── buyer.js                 ← Lógica comprador
+├── main-init.js             ← Inicialización
+└── style.css                ← Estilos
+
+═════════════════════════════════════════════════════════════════
+
+🔌 ENDPOINTS DISPONIBLES:
+═════════════════════════════════════════════════════════════════
+
+GET     http://localhost:3000/api/products          Todos los productos
+GET     http://localhost:3000/api/products/1        Producto con ID 1
+POST    http://localhost:3000/api/products          Crear producto
+PUT     http://localhost:3000/api/products/1        Actualizar producto
+DELETE  http://localhost:3000/api/products/1        Eliminar producto
+GET     http://localhost:3000/api/health            Verificar servidor
+
+═════════════════════════════════════════════════════════════════
+
+✅ VERIFICAR QUE FUNCIONA:
+═════════════════════════════════════════════════════════════════
+
+Abre en tu navegador:
+  http://localhost:3000/api/health
+
+Deberías ver un JSON con "success": true
+
+═════════════════════════════════════════════════════════════════
+
+🧪 PROBAR EN POSTMAN:
+═════════════════════════════════════════════════════════════════
+
+1. Descarga Postman: https://www.postman.com/downloads/
+2. Abre el archivo POSTMAN_URLS.txt
+3. Copia las URLs en Postman
+4. Presiona "Send" para probar
+
+═════════════════════════════════════════════════════════════════
+
+❌ PROBLEMAS COMUNES:
+═════════════════════════════════════════════════════════════════
+
+❌ "npm: no se reconoce el término"
+   → Instala Node.js: https://nodejs.org/
+
+❌ "Port 3000 already in use"
+   → Cambia el puerto en backend/.env a 5000
+   → Reinicia: npm start
+
+❌ "Cannot find module 'express'"
+   → Asegúrate de estar en la carpeta backend
+   → Ejecuta: npm install
+
+❌ CORS error en el frontend
+   → Verifica que el backend está corriendo
+   → Abre: http://localhost:3000/api/health
+   → Verifica la URL en api-service.js
+
+═════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTACIÓN:
+═════════════════════════════════════════════════════════════════
+
+- BACKEND_README.md      ← Guía detallada del backend
+- POSTMAN_URLS.txt       ← URLs para probar en Postman
+- backend/server.js      ← Ver código del servidor
+
+═════════════════════════════════════════════════════════════════
+
+💡 NOTAS:
+═════════════════════════════════════════════════════════════════
+
+✅ Los datos se guardan en backend/products.json
+✅ Persisten incluso si cierras el servidor
+✅ Puedes editar el JSON directamente si necesitas
+✅ Para producción, cambia a SQLite o PostgreSQL
+
+═════════════════════════════════════════════════════════════════
+
+¿LISTO? Abre Terminal y escribe:
+
+    cd backend && npm install && npm start
+
+═════════════════════════════════════════════════════════════════
