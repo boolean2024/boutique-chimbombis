@@ -36,7 +36,7 @@ function showNotification(message, type = 'success') {
     
     setTimeout(() => {
         notification.style.transform = 'translateX(500px)';
-    }, 3000);
+    }, 2000);
     
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';

@@ -7,9 +7,12 @@ let currentFilter = 'all';
 // Cargar al iniciar
 function initBuyer() {
     buyerProducts = loadProducts();
+    loadCart();
     renderBuyerProducts();
     setupFilters();
     setupSearch();
+    updateCartUI();
+    renderCart();
 }
 
 // Renderizar productos para comprador
@@ -40,6 +43,64 @@ function renderBuyerProducts() {
             </div>
         </div>
     `).join('');
+}
+
+// Renderizar carrito
+function renderCart() {
+    const cartContainer = document.getElementById('cartContainer');
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p class="empty-cart">Tu carrito está vacío</p>';
+        return;
+    }
+    
+    cartContainer.innerHTML = '<div class="cart-items">' + cart.map(item => `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+            <div class="cart-item-info">
+                <h4>${item.name}</h4>
+                <p class="price">$${item.price.toFixed(2)}</p>
+            </div>
+            <div class="cart-item-controls">
+                <button class="qty-btn" onclick="updateCartQty(${item.id}, ${item.quantity - 1})"><i class="fas fa-minus"></i></button>
+                <span class="qty">${item.quantity}</span>
+                <button class="qty-btn" onclick="updateCartQty(${item.id}, ${item.quantity + 1})"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</div>
+            <button class="btn-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
+        </div>
+    `).join('') + '</div>';
+}
+
+// Actualizar cantidad en carrito
+function updateCartQty(productId, newQty) {
+    if (newQty <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    const product = buyerProducts.find(p => p.id === productId);
+    if (product && newQty > product.stock) {
+        showNotification(`Stock máximo: ${product.stock}`, 'warning');
+        return;
+    }
+    
+    const cartItem = cart.find(item => item.id === productId);
+    if (cartItem) {
+        cartItem.quantity = newQty;
+        saveCart();
+        updateCartUI();
+        renderCart();
+        showNotification('Carrito actualizado', 'success');
+    }
+}
+
+// Eliminar del carrito
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    updateCartUI();
+    renderCart();
+    showNotification('Producto removido del carrito', 'success');
 }
 
 // Configurar filtros
