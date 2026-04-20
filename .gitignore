@@ -3,10 +3,15 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# Archivos de entorno
+# Archivos de entorno y secretos
 .env
 .env.local
 .env.*.local
+.env.production.local
+
+# Configuración local
+config.js
+!config.js.example
 
 # IDE
 .vscode/
