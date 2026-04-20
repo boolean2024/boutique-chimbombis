@@ -1,304 +1,148 @@
-# Boutique Chimbombis - CRUD HTML/CSS/JS
+# Boutique Chimbombis 👜
 
-Sistema de gestión de productos (CRUD) completamente funcional con HTML, CSS y JavaScript vanilla, conectado a Supabase.
-
-## 🚀 Inicio Rápido
-
-### Opción 1: Sin instalación (recomendado para probar)
-1. Abre `index.html` en tu navegador
-2. ¡Listo! El sistema funciona con `localStorage` por defecto
-
-### Opción 2: Con Supabase (para producción)
-
-#### Paso 1: Crear proyecto en Supabase
-1. Ingresa a [supabase.com](https://supabase.com)
-2. Crea una cuenta gratuita
-3. Crea un nuevo proyecto
-4. Espera a que se inicialice
-
-#### Paso 2: Crear tabla en Supabase
-En el editor SQL de Supabase, ejecuta:
-
-```sql
-CREATE TABLE productos (
-  id SERIAL PRIMARY KEY,
-  nombre TEXT NOT NULL,
-  descripcion TEXT,
-  precio DECIMAL(10, 2) NOT NULL,
-  categoria TEXT NOT NULL,
-  imagen_url TEXT,
-  stock INTEGER NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Insertar productos de ejemplo
-INSERT INTO productos (nombre, descripcion, precio, categoria, imagen_url, stock) VALUES
-('Perfume Elegancia', 'Aroma sofisticado para ocasiones especiales', 120.00, 'perfume', 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400', 15),
-('Perfume Fresco', 'Fragancia ligera y refrescante', 85.00, 'perfume', 'https://images.unsplash.com/photo-1508737763115-b8f8f5a83001?w=400', 20),
-('Blusa Casual', 'Blusa cómoda para el día a día', 35.00, 'ropa', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', 25),
-('Vestido Formal', 'Vestido elegante para eventos', 95.00, 'ropa', 'https://images.unsplash.com/photo-1595777707802-51ca6f37b237?w=400', 12),
-('Zapatos Deportivos', 'Tenis cómodos para correr', 85.00, 'calzado', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', 12),
-('Zapatos Formales', 'Zapatos elegantes para oficina', 120.00, 'calzado', 'https://images.unsplash.com/photo-1549446881-cb1aea458c5e?w=400', 8);
-
--- Permitir acceso público
-ALTER TABLE productos ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow public read"
-  ON productos FOR SELECT
-  USING (true);
-
-CREATE POLICY "Allow public insert"
-  ON productos FOR INSERT
-  WITH CHECK (true);
-
-CREATE POLICY "Allow public update"
-  ON productos FOR UPDATE
-  USING (true);
-
-CREATE POLICY "Allow public delete"
-  ON productos FOR DELETE
-  USING (true);
-```
-
-#### Paso 3: Obtener credenciales
-1. En Supabase, ve a **Settings → API**
-2. Copia:
-   - `Project URL` (SUPABASE_URL)
-   - `anon public` key (SUPABASE_KEY)
-
-#### Paso 4: Configurar proyecto
-Edita `app.js` y reemplaza:
-
-```javascript
-const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
-const SUPABASE_KEY = 'tu_anon_key_aqui';
-```
-
-#### Paso 5: Prueba
-Recarga la página. Deberías ver "🟢 Supabase" en la esquina superior derecha.
-
-## 📁 Estructura de Archivos
-
-```
-/
-├── index.html          ← Página principal
-├── style.css           ← Estilos completos
-├── app.js              ← Lógica de la aplicación
-├── .env.local          ← Variables de entorno (no compartir)
-├── .gitignore          ← Archivos a ignorar en Git
-└── README.md           ← Este archivo
-```
+Aplicación web moderna para gestionar una boutique con dos modos: **Comprador** y **Administrador**. Datos almacenados localmente con soporte para subida de imágenes.
 
 ## ✨ Características
 
-✅ **CRUD Completo**
-- Agregar productos
-- Editar productos
-- Eliminar productos
-- Ver todos los productos
+- **Modo Comprador**: Explora productos, búsqueda, filtros por categoría, carrito de compras
+- **Modo Administrador**: Gestiona productos, agregar/editar/eliminar, subida de imágenes propias
+- **Almacenamiento Local**: Todos los datos se guardan en el navegador (localStorage)
+- **Interfaz Hermosa**: Diseño moderno con animaciones fluidas
+- **Completamente Responsivo**: Funciona perfectamente en móvil, tablet y desktop
+- **Sin Dependencias**: Puro HTML, CSS y JavaScript vanilla
 
-✅ **Funcionalidades**
-- Filtrado por categoría (Perfume, Ropa, Calzado)
-- Búsqueda y validación de formularios
-- Preview de imágenes
-- Notificaciones toast
-- Estadísticas en tiempo real
+## 🚀 Inicio Rápido
 
-✅ **Base de Datos**
-- localStorage (offline)
-- Supabase (online)
-- Cambio automático entre modos
-
-✅ **Diseño**
-- Responsive (mobile, tablet, desktop)
-- Gradientes modernos
-- Animaciones suaves
-- Font Awesome icons
-
-## 🚢 Desplegar en Vercel
-
-### Paso 1: Crear repositorio GitHub
+### Opción 1: Abrir Localmente
 ```bash
+# Simplemente abre index.html en tu navegador
+# Windows: Doble clic en index.html
+# Mac/Linux: Abre en navegador
+```
+
+### Opción 2: Desplegar en Vercel
+1. Fork o copia este repositorio a GitHub
+2. Ve a https://vercel.com
+3. Importa tu repositorio
+4. Haz clic en Deploy
+
+Tu app estará en línea en segundos ⚡
+
+## 📁 Estructura del Proyecto
+
+```
+Boutique-Chimbombis/
+├── index.html        # Interfaz principal
+├── style.css         # Estilos (animaciones, colores, responsive)
+├── data.js           # Datos de productos pre-cargados
+├── admin.js          # Lógica del panel de administrador
+├── buyer.js          # Lógica de comprador
+├── main-init.js      # Script principal
+└── README.md         # Este archivo
+```
+
+## 🎯 Cómo Usar
+
+### Modo Comprador
+1. Selecciona "Comprador" en la pantalla inicial
+2. Explora productos con filtros por categoría
+3. Usa búsqueda para encontrar rápido
+4. Agrega productos al carrito
+5. El carrito se guarda automáticamente
+
+### Modo Administrador
+1. Selecciona "Administrador" en la pantalla inicial
+2. Ve todas las estadísticas (productos, valor total, stock)
+3. **Agregar Producto**:
+   - Haz clic en "+ Agregar Producto"
+   - Completa los datos
+   - **Sube tu propia imagen** (JPG, PNG)
+   - Haz clic en Guardar
+4. **Editar**: Haz clic en el icono de lápiz
+5. **Eliminar**: Haz clic en el icono de papelera
+
+## 💾 Almacenamiento de Datos
+
+- **Productos**: Se guardan en `localStorage` como JSON
+- **Imágenes**: Se convierten a Base64 y se guardan localmente
+- **Carrito**: Se persiste automáticamente
+
+Los datos son accesibles desde cualquier dispositivo simplemente abriendo la URL.
+
+## 🎨 Características de Diseño
+
+- **Colores Modernos**: Gradientes púrpura y rosa
+- **Animaciones**: Transiciones suaves en todo
+- **Iconos**: Font Awesome 6.4
+- **Responsivo**: Mobile-first design
+- **Dark/Light**: Interfaz clara y contraste perfecto
+
+## 📦 Productos Pre-cargados
+
+- 10 productos de ejemplo (perfumes, ropa, calzado)
+- Con imágenes SVG bonitas
+- Datos realistas de precios y stock
+
+## 🔧 Personalización
+
+### Cambiar Colores
+Edita las variables en `style.css`:
+```css
+:root {
+    --primary: #8B5CF6;      /* Púrpura */
+    --secondary: #EC4899;    /* Rosa */
+    ...
+}
+```
+
+### Agregar Más Productos
+En `data.js`, agrega a `INITIAL_PRODUCTS`:
+```javascript
+{
+    id: 11,
+    name: 'Tu Producto',
+    description: 'Descripción...',
+    price: 99.99,
+    category: 'perfume|ropa|calzado',
+    stock: 20,
+    image: 'data:image/...' // Base64
+}
+```
+
+## 🌐 Despliegue
+
+### GitHub + Vercel
+```bash
+# 1. Inicializar Git
 git init
 git add .
-git commit -m "Initial commit: Boutique Chimbombis CRUD"
-git branch -M main
+git commit -m "Initial commit"
+
+# 2. Crear repo en GitHub
+# Ir a github.com → New repository → boutique-chimbombis
+
+# 3. Empujar código
 git remote add origin https://github.com/tu-usuario/boutique-chimbombis.git
 git push -u origin main
+
+# 4. Desplegar en Vercel
+# Vercel → New Project → Importar desde GitHub → Deploy
 ```
 
-### Paso 2: Desplegar en Vercel
-1. Ingresa a [vercel.com](https://vercel.com)
-2. Haz clic en "New Project"
-3. Selecciona tu repositorio
-4. Haz clic en "Deploy"
+## 📱 Funcionalidades Futuras
 
-¡Listo! Tu sitio estará en `https://tu-proyecto.vercel.app`
-
-## 🌐 Desplegar en GitHub Pages
-
-### Alternativa a Vercel (más rápido)
-1. Ve a Settings → Pages
-2. Source: Deploy from a branch
-3. Branch: main, folder: / (root)
-4. Guarda
-
-Tu sitio estará en `https://tu-usuario.github.io/boutique-chimbombis/`
-
-## 🔐 Variables de Entorno
-
-No edites credenciales directamente en `app.js`. Crea un archivo `.env.local`:
-
-```
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_KEY=tu_anon_key_aqui
-```
-
-## 📋 Instalación Local
-
-Para desarrollo local:
-
-```bash
-# Clonar repositorio
-git clone https://github.com/tu-usuario/boutique-chimbombis.git
-cd boutique-chimbombis
-
-# Abrir en navegador
-# Opción 1: Directamente
-open index.html
-
-# Opción 2: Con Live Server (VS Code)
-# Click derecho en index.html → Open with Live Server
-
-# Opción 3: Servidor Python
-python -m http.server 8000
-# Abre http://localhost:8000
-```
-
-## 🛠️ Tecnologías
-
-- **HTML5**: Estructura semántica
-- **CSS3**: Grid, Flexbox, Gradientes
-- **JavaScript Vanilla**: Sin dependencias
-- **Supabase**: PostgreSQL en la nube (free)
-- **Font Awesome**: Iconos profesionales
-
-## 📊 Flujo de Datos
-
-```
-localStorage/Supabase
-        ↓
-    app.js
-        ↓
-  renderizarProductos()
-        ↓
-    index.html (DOM actualizado)
-```
-
-## 🐛 Solución de Problemas
-
-### "Conectando..." no desaparece
-- Verifica que SUPABASE_URL y SUPABASE_KEY sean correctos
-- Comprueba permisos en Supabase (RLS policies)
-- Abre la consola del navegador (F12) para ver errores
-
-### Las imágenes no cargan
-- Verifica que sean URLs HTTPS válidas
-- Usa [unsplash.com](https://unsplash.com) para imágenes de prueba
-- La imagen fallback aparecerá automáticamente
-
-### Cambios no se guardan
-- Verifica que localStorage esté habilitado
-- Si usas Supabase, comprueba conexión en la consola
-- Intenta recargar la página (Ctrl+Shift+R)
-
-## 💡 Tips
-
-1. **Imágenes**: Usa URLs de Unsplash, Pexels o similar
-2. **Precios**: Usa formato decimal (120.50)
-3. **Stock**: Números enteros positivos
-4. **Descripciones**: Máximo 150 caracteres para mejor UI
-
-## 📝 Licencia
-
-MIT License - Siéntete libre de usar y modificar
-
-## 🤝 Soporte
-
-¿Preguntas? Abre un issue en GitHub o contacta al equipo de desarrollo.
-
----
-
-**Hecho con ❤️ para Boutique Chimbombis**
-
-```
-NEXT_PUBLIC_SUPABASE_URL=tu_url_aqui
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_clave_aqui
-```
-
-### 3. Deploy
-
-Vercel automáticamente desplegará en cada push a main.
-
-## 📦 Scripts disponibles
-
-```bash
-npm run dev      # Inicia servidor de desarrollo
-npm run build    # Construye para producción
-npm start        # Inicia servidor de producción
-npm run lint     # Ejecuta linter
-```
-
-## 🎯 Características Futuras
-
-- [ ] Integración de pagos (Stripe/PayPal)
-- [ ] Sistema de comentarios y reseñas
-- [ ] Búsqueda avanzada de productos
-- [ ] Sistema de notificaciones
-- [ ] Panel de ventas del administrador
-- [ ] Gestión de usuarios
-- [ ] Descuentos y cupones
-
-## 🔒 Seguridad
-
-- Las rutas del admin están protegidas
-- Validación de datos en el frontend
-- Implementar validación en el backend con Supabase RLS
-- Usar HTTPS en producción
-
-## 📝 Notas Importantes
-
-### Para Desarrollo
-
-- Este proyecto usa datos mock para demostración
-- Para usar Supabase real, actualiza `src/lib/supabase.ts`
-- Implementa las llamadas API en funciones server-side
-
-### Para Producción
-
-- Configura las reglas de Row Level Security (RLS) en Supabase
-- Implementa autenticación real con Supabase Auth
-- Agrega validación de servidor
-- Implementa procesamiento de pagos
-
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Haz fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+- [ ] Integración con Stripe para pagos
+- [ ] Panel de estadísticas avanzadas
+- [ ] Historial de compras
+- [ ] Sistema de usuarios
+- [ ] Notificaciones por email
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+MIT - Úsalo libremente
 
-## 📞 Soporte
-
-Para reportar problemas o sugerencias, abre un issue en el repositorio.
+## 🙌 Hecho con ❤️ para Boutique Chimbombis
 
 ---
 
-**Hecho con ❤️ para Boutique Chimbombis**
+**¡Disfruta tu tienda online!** 🛍️
