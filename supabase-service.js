@@ -6,8 +6,8 @@
 // ============================
 
 // Esperar a que Supabase esté listo (desde config.js)
-if (typeof supabase_instance === 'undefined') {
-    console.error('❌ supabase_instance no está disponible. Verifica que config.js se cargó antes.');
+if (!window.supabase_instance) {
+    console.error('❌ window.supabase_instance no está disponible. Verifica que config.js se cargó antes.');
 }
 
 // ============================
@@ -17,12 +17,12 @@ if (typeof supabase_instance === 'undefined') {
 // GET - Obtener todos los productos
 async function fetchAllProducts() {
     try {
-        if (!supabase_instance) {
+        if (!window.supabase_instance) {
             console.error('Supabase no configurado');
             return [];
         }
 
-        const { data, error } = await supabase_instance
+        const { data, error } = await window.supabase_instance
             .from('products')
             .select('*')
             .order('id', { ascending: true });
@@ -42,12 +42,12 @@ async function fetchAllProducts() {
 // GET - Obtener un producto por ID
 async function fetchProductById(productId) {
     try {
-        if (!supabase_instance) {
+        if (!window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase_instance
+        const { data, error } = await window.supabase_instance
             .from('products')
             .select('*')
             .eq('id', productId)
@@ -68,12 +68,12 @@ async function fetchProductById(productId) {
 // POST - Crear nuevo producto
 async function createProduct(productData) {
     try {
-        if (!supabase_instance) {
+        if (!window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase_instance
+        const { data, error } = await window.supabase_instance
             .from('products')
             .insert([productData])
             .select()
@@ -94,12 +94,12 @@ async function createProduct(productData) {
 // PUT - Actualizar producto
 async function updateProduct(productId, productData) {
     try {
-        if (!supabase_instance) {
+        if (!window.supabase_instance) {
             console.error('Supabase no configurado');
             return null;
         }
 
-        const { data, error } = await supabase_instance
+        const { data, error } = await window.supabase_instance
             .from('products')
             .update(productData)
             .eq('id', productId)
@@ -121,12 +121,12 @@ async function updateProduct(productId, productData) {
 // DELETE - Eliminar producto
 async function apiDeleteProduct(productId) {
     try {
-        if (!supabase_instance) {
+        if (!window.supabase_instance) {
             console.error('Supabase no configurado');
             return false;
         }
 
-        const { error } = await supabase_instance
+        const { error } = await window.supabase_instance
             .from('products')
             .delete()
             .eq('id', productId);
