@@ -7,7 +7,7 @@ const INITIAL_PRODUCTS = [
         price: 120.00,
         category: 'perfume',
         stock: 15,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGPHJLY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNGRjY2QzQiIi8+CiAgPHBhdGggZD0iTSAxNTAgNTAgQSA1MCw1MCAwIDAgMSAxNTAgMTUwIEEgNTAsNTAgMCAwIDEgMTUwIDUwIiBmaWxsPSIjRkZCNkMxIi8+CiAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjAwIiByPSI0MCIgZmlsbD0iI0ZGQkZFMCIvPgo8L3N2Zz4='
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23FF66C4"/><circle cx="150" cy="100" r="40" fill="%23FFB6C1"/><path d="M 150 140 L 140 200 L 160 200 Z" fill="%23FFBFE0"/><rect x="130" y="200" width="40" height="60" fill="%23FFB6C1"/></svg>'
     },
     {
         id: 2,
@@ -16,7 +16,7 @@ const INITIAL_PRODUCTS = [
         price: 85.00,
         category: 'perfume',
         stock: 20,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGPHJLY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiM4RUVFQ0QiIi8+CiAgPHBhdGggZD0iTSAxNTAgNTAgQSA1MCw1MCAwIDAgMSAxNTAgMTUwIEEgNTAsNTAgMCAwIDEgMTUwIDUwIiBmaWxsPSIjNDBFMEQwIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI5MCIgZmlsbD0iIzIwQkYyMCIvPgo8L3N2Zz4='
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%238EEECD"/><circle cx="150" cy="100" r="40" fill="%2340E0D0"/><circle cx="130" cy="80" r="8" fill="%23FFD700"/><circle cx="170" cy="80" r="8" fill="%23FFD700"/><path d="M 150 140 L 140 200 L 160 200 Z" fill="%2340E0D0"/></svg>'
     },
     {
         id: 3,
@@ -25,7 +25,7 @@ const INITIAL_PRODUCTS = [
         price: 35.00,
         category: 'ropa',
         stock: 25,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICagicakicAgPHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNGNUY1RjUiLz4KICAKICAGPHBHDGGGZD0iTSAxMjAgODAgTCAxMDAgMTYwIEwgMTUwIDE4MCBMMjAwIDE2MCBMMTgwIDgwIFoiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTSAxMjAgODAgTCA2MCAxNjAgTDExMCAyMjAgTDEyMCAxODAiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTSAxODAgODAgTCAyNDAgMTYwIEwgMTkwIDIyMCBMMTgwIDE4MCIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23F5F5F5"/><path d="M 120 80 L 90 120 L 100 200 L 200 200 L 210 120 L 180 80 Z" fill="%23FFFFFF" stroke="%23333" stroke-width="2"/><rect x="140" y="100" width="20" height="15" fill="%23FFB6C1"/></svg>'
     },
     {
         id: 4,
@@ -34,7 +34,7 @@ const INITIAL_PRODUCTS = [
         price: 55.00,
         category: 'ropa',
         stock: 18,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGPHJLY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNFOEY0Rjgiis8KiAgCiAgIDxwYXRoIGQ9Ik0gMTIwIDEwMCBMIDExMCAyMjAgTDEyMCAyNzAgTDEzMCAyMjAgTDEzMCAxMDAiIGZpbGw9IiMxRTMwRjAiIHN0cm9rZT0iIzEyMThBNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgIDxwYXRoIGQ9Ik0gMTgwIDEwMCBMIDE5MCkyMjAgTCAxODAgMjcwIEwgMTcwIDIyMCBMMTcwIDEwMCIgZmlsbD0iIzFFMzBGMCIgc3Ryb2tlPSIjMTIxOEE2IiBzdHJva2Utd2lkdGg9IjIiLz4KICAKICAGICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23E8F4F8"/><path d="M 120 100 L 100 180 L 110 260 L 140 260 L 150 180 L 150 100 Z" fill="%231E30F0" stroke="%23121A6" stroke-width="2"/><path d="M 180 100 L 200 180 L 190 260 L 160 260 L 150 180 L 150 100 Z" fill="%231E30F0" stroke="%23121A6" stroke-width="2"/></svg>'
     },
     {
         id: 5,
@@ -43,7 +43,7 @@ const INITIAL_PRODUCTS = [
         price: 159.99,
         category: 'calzado',
         stock: 12,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRUZFRkVGIi8+CiAgIDxwYXRoIGQ9Ik0gNjAgMjAwIEwgODAgMTUwIEwgMTIwIDE0MCBMMTQwIDE0MCBMMTYwIDE1MCBMMTgwIDE0MCBMMjIwIDE0MCBMMjQwIDE1MCBMMjYwIDE2MCBMMjgwIDIyMCBMIDI2MCAyNTAgTCA5MCwyNTAgTCA0MCAyMjAgWiIgZmlsbD0iI0ZGMzMzMyIgc3Ryb2tlPSIjQ0MwMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4KICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23EFEFEF"/><ellipse cx="150" cy="200" rx="80" ry="40" fill="%23FF3333" stroke="%23CC0000" stroke-width="2"/><path d="M 80 180 L 100 140 L 120 130 L 180 130 L 200 140 L 220 180" fill="%23FF3333" stroke="%23CC0000" stroke-width="2"/></svg>'
     },
     {
         id: 6,
@@ -52,7 +52,7 @@ const INITIAL_PRODUCTS = [
         price: 140.00,
         category: 'calzado',
         stock: 10,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjBFOEU4Ii8+CiAgIDxwYXRoIGQ9Ik0gNzAgMTcwIEwgODAgODAgTCAxMjAgODAgTCAxMzAgMTcwIEwgMTQwIDI3MCBMMjAgMjcwIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0iIzExMTExMSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgIDxwYXRoIGQ9Ik0gMjMwIDE3MCBMIDIwMCA4MCBMMjQwIDgwIEwgMjUwIDE3MCBMMjYwIDI3MCBMMTQwIDI3MCBaIiBmaWxsPSIjMzMzMzMzIiBzdHJva2U9IiMxMTExMTEiIHN0cm9rZS13aWR0aD0iMiIvPgogICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23F0E8E8"/><path d="M 100 100 L 90 160 L 95 260 L 135 260 L 140 160 L 140 100 Z" fill="%23333333" stroke="%23111" stroke-width="2"/><path d="M 200 100 L 210 160 L 205 260 L 165 260 L 160 160 L 160 100 Z" fill="%23333333" stroke="%23111" stroke-width="2"/></svg>'
     },
     {
         id: 7,
@@ -61,7 +61,7 @@ const INITIAL_PRODUCTS = [
         price: 110.00,
         category: 'perfume',
         stock: 14,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkVEOEI2Ii8+CiAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjEyMCIgcj0iNTAiIGZpbGw9IiNGRjhDNDIiLz4KICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23FED8B6"/><circle cx="150" cy="100" r="50" fill="%23FF8C42"/><path d="M 150 160 L 140 220 L 160 220 Z" fill="%23FF8C42"/><circle cx="130" cy="140" r="15" fill="%23FFAA60"/></svg>'
     },
     {
         id: 8,
@@ -70,7 +70,7 @@ const INITIAL_PRODUCTS = [
         price: 39.99,
         category: 'calzado',
         stock: 30,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjQzBFRkZGIi8+CiAgIDxwYXRoIGQ9Ik0gODAgMjAwIEwgMTAwIDE0MCBMMTQwIDEzMCBMMTYwIDEzMCBMMjAwIDE0MCBMMjIwIDIwMCBMMjAwIDI0MCBMMTAwIDI0MCBaIiBmaWxsPSIjRkZDNzBCIiBzdHJva2U9IiNGRkE1MDAiIHN0cm9rZS13aWR0aD0iMiIvPgogICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23C0EFFF"/><ellipse cx="120" cy="200" rx="35" ry="30" fill="%23FFC70B" stroke="%23FFA500" stroke-width="2"/><ellipse cx="180" cy="200" rx="35" ry="30" fill="%23FFC70B" stroke="%23FFA500" stroke-width="2"/><rect x="135" y="150" width="30" height="50" fill="%23FF6B6B"/></svg>'
     },
     {
         id: 9,
@@ -79,7 +79,7 @@ const INITIAL_PRODUCTS = [
         price: 75.00,
         category: 'ropa',
         stock: 16,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjVFNkU2Ii8+CiAgIDxwYXRoIGQ9Ik0gMTAwIDEwMCBMIDEyMCA4MCBMMTgwIDgwIEwgMjAwIDEwMCBMMjEwIDIxMCBMMTUwIDIzMCBMMTUwIDI0MCBMMTUwIDIzMCBMMTUwIDIwMCBMMTMwIDIxMCBMMTMwIDEwMCBMMTIwIDExMCBMMTIwIDE5MCBMMTEwIDIwMCBMMTEwIDExMCBMMTAwIDEwMCBaIiBmaWxsPSIjMzMzMzMzIiBzdHJva2U9IiMxMTExMTEiIHN0cm9rZS13aWR0aD0iMiIvPgogICAKPC9zdmc+'
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23F5E6E6"/><path d="M 90 100 L 110 80 L 190 80 L 210 100 L 220 220 L 80 220 Z" fill="%23333333" stroke="%23111" stroke-width="2"/><circle cx="110" cy="140" r="8" fill="%23555555"/><circle cx="190" cy="140" r="8" fill="%23555555"/></svg>'
     },
     {
         id: 10,
@@ -88,7 +88,7 @@ const INITIAL_PRODUCTS = [
         price: 120.00,
         category: 'calzado',
         stock: 8,
-        image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGICAKICAGICAGICAGICAGICAGICAG8KiAgCiAgIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkVGNkY2Ii8+CiAgIDxwYXRoIGQ9Ik0gODAgMjIwIEwgMTAwIDE2MCBMMTQwIDE1MCBMMTYwIDE1MCBMMjAwIDE2MCBMMjIwIDIyMCBMMjEwIDI1MCBMMjAwIDI2MCBMMTAwIDI2MCBMMjAgMjUwIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0iIzExMTExMSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgIDxwYXRoIGQ9Ik0gMTAwIDIwMCBMMTQwIDI0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIi8+CiAgIDxwYXRoIGQ9Ik0gMjAwIDIwMCBMMTYwIDI0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIi8+CiAgIAo8L3N2Zz4='
+        image: 'data:image/svg+xml;utf8,<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="%23FEF6F6"/><ellipse cx="120" cy="200" rx="40" ry="35" fill="%23333333" stroke="%23111" stroke-width="2"/><ellipse cx="180" cy="200" rx="40" ry="35" fill="%23333333" stroke="%23111" stroke-width="2"/><path d="M 100 140 L 140 100 L 160 100 L 200 140 L 200 180 L 100 180 Z" fill="%23333333" stroke="%23111" stroke-width="2"/></svg>'
     }
 ];
 
