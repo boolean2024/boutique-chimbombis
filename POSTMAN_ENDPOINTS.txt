@@ -1,0 +1,162 @@
+════════════════════════════════════════════════════════════════════════════════
+🚀 ENDPOINTS SUPABASE - POSTMAN
+════════════════════════════════════════════════════════════════════════════════
+
+URL BASE:
+https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1
+
+HEADER REQUERIDO (en todas las requests):
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+
+════════════════════════════════════════════════════════════════════════════════
+1️⃣ GET - OBTENER TODOS LOS PRODUCTOS
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD:  GET
+URL:     https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1/products
+
+Headers:
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+
+Response (200):
+[
+  {
+    "id": 1,
+    "name": "Perfume Elegancia",
+    "description": "Aroma floral...",
+    "price": 120.00,
+    "category": "perfume",
+    "stock": 15,
+    "image": "data:image/svg+xml;base64,...",
+    "created_at": "2024-01-15T10:30:00Z",
+    "updated_at": "2024-01-15T10:30:00Z"
+  },
+  ...
+]
+
+════════════════════════════════════════════════════════════════════════════════
+2️⃣ GET - OBTENER UN PRODUCTO POR ID
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD:  GET
+URL:     https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1/products?id=eq.1
+
+Headers:
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+
+Response (200):
+[
+  {
+    "id": 1,
+    "name": "Perfume Elegancia",
+    "description": "Aroma floral y sofisticado...",
+    "price": 120.00,
+    "category": "perfume",
+    "stock": 15,
+    "image": "data:image/svg+xml;base64,...",
+    "created_at": "2024-01-15T10:30:00Z",
+    "updated_at": "2024-01-15T10:30:00Z"
+  }
+]
+
+════════════════════════════════════════════════════════════════════════════════
+3️⃣ POST - CREAR NUEVO PRODUCTO
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD:  POST
+URL:     https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1/products
+
+Headers:
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+Content-Type: application/json
+
+Body (raw JSON):
+{
+  "name": "Nuevo Perfume",
+  "description": "Descripción del producto",
+  "price": 99.99,
+  "category": "perfume",
+  "stock": 10,
+  "image": "data:image/svg+xml;base64,..."
+}
+
+Response (201):
+{
+  "id": 11,
+  "name": "Nuevo Perfume",
+  "description": "Descripción del producto",
+  "price": 99.99,
+  "category": "perfume",
+  "stock": 10,
+  "image": "data:image/svg+xml;base64,...",
+  "created_at": "2024-01-20T15:45:00Z",
+  "updated_at": "2024-01-20T15:45:00Z"
+}
+
+════════════════════════════════════════════════════════════════════════════════
+4️⃣ PATCH - ACTUALIZAR PRODUCTO
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD:  PATCH
+URL:     https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1/products?id=eq.1
+
+Headers:
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+Content-Type: application/json
+
+Body (raw JSON):
+{
+  "stock": 20,
+  "price": 125.00
+}
+
+Response (200):
+[
+  {
+    "id": 1,
+    "name": "Perfume Elegancia",
+    "description": "Aroma floral y sofisticado...",
+    "price": 125.00,
+    "category": "perfume",
+    "stock": 20,
+    "image": "data:image/svg+xml;base64,...",
+    "created_at": "2024-01-15T10:30:00Z",
+    "updated_at": "2024-01-20T16:00:00Z"
+  }
+]
+
+════════════════════════════════════════════════════════════════════════════════
+5️⃣ DELETE - ELIMINAR PRODUCTO
+════════════════════════════════════════════════════════════════════════════════
+
+METHOD:  DELETE
+URL:     https://rxylafkyhifjgxsjuxtb.supabase.co/rest/v1/products?id=eq.1
+
+Headers:
+Authorization: Bearer sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+
+Response (204):
+(vacío - solo indica éxito)
+
+════════════════════════════════════════════════════════════════════════════════
+📝 NOTAS IMPORTANTES
+════════════════════════════════════════════════════════════════════════════════
+
+1. Reemplazar ID: Cambia "eq.1" por el ID que quieras en GET/PATCH/DELETE
+   
+2. Campos requeridos: name, price, category, stock
+   
+3. Image: Usa Base64 (data:image/svg+xml;base64,...) o URL válida
+   
+4. Categorías disponibles: perfume, ropa, calzado, accesorios
+   
+5. Stock: Solo números enteros >= 0
+
+════════════════════════════════════════════════════════════════════════════════
+🔑 CREDENCIALES
+════════════════════════════════════════════════════════════════════════════════
+
+Project URL: https://rxylafkyhifjgxsjuxtb.supabase.co
+Publishable Key: sb_publishable_CWFsQYLGHAeqodILzMHvcg_eIYWmNPs
+
+════════════════════════════════════════════════════════════════════════════════
